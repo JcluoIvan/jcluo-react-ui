@@ -1,0 +1,26 @@
+/* 共用設定 */
+    @iphone4-width:     320px;
+    @iphone6-width:     375px;
+    @iphone6plus-width: 412px;
+
+/**
+ * 動畫
+ * @name        動畫名稱
+ * @animation   動畫設定  {設定...}
+ * @styles      動畫變化 
+ * 例 :
+ *     .animation(
+ *         show-dialog,
+ *         500ms ease,
+ *         {
+ *             from { opacity: 0; }
+ *             to { opacity: 1; }
+ *        }
+ *    )
+ */
+    .animation (@name; @animation; @styles) {
+        animation: @name  @animation;
+        @keyframes @name { @styles(); }
+    }
+
+/* 共用設定 end */

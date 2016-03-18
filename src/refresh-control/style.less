@@ -1,0 +1,126 @@
+@import '../common';
+@green: #008744;
+@blue: #0057e7;
+@red: #d62d20;
+@yellow: #ffa700;
+@white: #eee;
+
+@circle-size: 100px;
+
+.JUI-RefreshControl {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+
+    & .JUI-Refresh-Tag {
+
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: @circle-size;
+        z-index: 1;
+        transform: translateY(-100%) scale(.5);
+        display: flex;
+        & > div.flex-site { content: ' '; flex: 1; }
+        & > div.flex-center { 
+            flex: none; 
+            position: relative; 
+            width: 80px;
+        }
+        & > div > .icon {
+            position: absolute;
+            bottom: 0;
+            background: #eee;
+            border-radius: 100%;
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            // opacity: 0;
+            transform: scale(.5);
+            text-align: center;
+            font-size: 48px;
+            font-weight: bold;
+        }
+
+        & .circular{
+            position: absolute;
+            bottom: 0;
+            background: #eee;
+            border-radius: 100%;
+            height: 80px;
+            width: 80px;
+            opacity: 0;
+            transform: rotate(0);
+            animation: JUI-RefreshControl-rotate 2s linear infinite;
+            animation-play-state: paused;
+            @keyframes JUI-RefreshControl-rotate {
+                to { transform: rotate(360deg); }
+            }
+        }
+
+        & .path {
+            stroke-dasharray: 1,000;
+            stroke-dashoffset: 0;
+            stroke-linecap: butt;
+            stroke: @red;
+            animation: 
+                JUI-RefreshControl-circle  1.5s ease-in-out infinite,
+                JUI-RefreshControl-color 6s ease-in-out infinite;
+            animation-play-state: paused;
+            @keyframes JUI-RefreshControl-circle {
+                0%{
+                    stroke-dasharray: 1,200;
+                    stroke-dashoffset: 0;
+                }
+                50%{
+                    stroke-dasharray: 89,200;
+                    stroke-dashoffset: -35;
+                }
+                100%{
+                    stroke-dasharray: 89,200;
+                    stroke-dashoffset: -124;
+                }
+            }
+            @keyframes JUI-RefreshControl-color {
+                100%, 0%{
+                    stroke: @red;
+                }
+                40%{
+                    stroke: @blue;
+                }
+                66%{
+                    stroke: @green;
+                }
+                80%, 90%{
+                    stroke: @yellow;
+                }
+            }
+            
+        }
+    }
+
+
+    &.drag-action, &.on-refresh {
+        overflow: hidden;
+    }
+    &.on-refresh {
+        & .JUI-Refresh-Tag {
+            transform: translateY(0) scale(0.5);
+            & .icon { opacity: 0; }
+            & .circular, & .path {
+                opacity: 1;
+                animation-play-state: running;
+            }
+        }
+    }
+
+    /* refresh - children */
+    .JUI-children {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+
+}

@@ -1,0 +1,130 @@
+@debug: false;
+
+/* 預設顏色 */
+@default-color : #aaa;
+
+/* 選擇 input 時的顏色 */
+@focus-color: #3f51b5;
+
+/* 下方錯誤說明的顏色 */
+@error-color: #f00;
+
+@error-line: #f99;
+
+.JUI-Input {
+    display: flex;
+    position: relative;
+    padding: 2rem .25rem;
+    
+    /* 左 icon */
+    & > .Input-Icon {
+        flex: none;
+        font-size: 2rem;
+        padding: 0.5rem;
+        color: @default-color;
+        text-align: center;
+    }
+
+    /* input 外層 div */
+    & > .JUI-Right-Panel {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        position: relative;
+        padding-left: 5px;
+        overflow: hidden;
+
+        & when(@debug = true) {
+            border: 1px solid #000;
+        }
+
+
+        /* input 上的標簽 */
+        & > .Input-Label {
+            position: relative;
+            color: #999;
+            font-size: .8rem;
+            font-weight: bold;
+            pointer-events: none;
+            height: 1rem;
+            transition: all 250ms;
+            transform-origin: left center;
+            transform: translateY(100%) scale(1.5);
+            & when(@debug = true) {
+                border: 1px solid #000;
+            }
+        }
+
+        & > .Input-Panel {
+            position: relative;
+            input {
+                outline: none;
+                width: 95%;
+                height: 1.5rem;
+                border-width: 0;
+                background: rgba(0,0,0,0);
+                font-size: 1.5rem;
+            }
+
+            &:before {
+                position: absolute;
+                background: @default-color;
+                content: ' ';
+                width: 100%;
+                left: 0;
+                bottom: 0px;
+                height: 1px;
+            }
+            &:after {
+                position: absolute;
+                background: @focus-color;
+                content: ' ';
+                width: 0%;
+                height: 2px;
+                left: 50%;
+                bottom: 0;
+                transition: all 250ms;
+            }
+        }
+
+        /* input 下的錯誤說明 */
+        & > .Input-Error {
+            font-size: 1rem;
+            height: 1rem;
+            color: red;
+            content: ' ';
+            & when(@debug = true) {
+                border: 1px solid #000;
+            }
+        }
+
+    }
+
+
+    &.is-focus {
+        & > .Input-Icon {
+            color: @focus-color;
+        }
+        & > .JUI-Right-Panel > .Input-Panel:after {
+            left: 0;
+            width: 100%;
+        }
+
+    }
+
+    &.has-input, &.is-focus {
+        & > .JUI-Right-Panel > .Input-Label {
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    /* 有 error 資料時 */
+    &.has-error {
+        & > .JUI-Right-Panel > .Input-Panel {
+            &:before, &:after { background: @error-color; }
+            // & > input { border-bottom: 1px solid @error-line; }
+        }
+    }
+
+
+}
